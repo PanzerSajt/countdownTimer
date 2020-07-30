@@ -1,7 +1,7 @@
-let inconsolata;neon"
+let inconsolata;
 function preload() {
   inconsolata = loadFont('https://raw.githubusercontent.com/googlefonts/Inconsolata/master/fonts/otf/Inconsolata-Black.otf');
-   
+  
 
 let startMillis;
 let endMillis;
