@@ -9,7 +9,7 @@ let endMillis;
 function setup() {
   let startHours = 1;
   let startMinutes = 15;
-  let startSeconds = 30;
+  let startSeconds = 35;
   let seconds = startSeconds + (startMinutes*60) + (startHours*60*60);
   
   createCanvas(windowWidth, windowHeight, WEBGL);
