@@ -13,6 +13,10 @@ var startSeconds;
 
 var seconds;
 
+var theme;
+
+let textSizeScaler = 3.5;
+
 function init() {
   seconds = startSeconds + (startMinutes*60) + (startHours*60*60);
   
@@ -22,6 +26,7 @@ function init() {
 }
 
 function setup() {
+  theme = 0;
   startHours = 1;
   startMinutes = 15;
   startSeconds = 35;
@@ -29,12 +34,12 @@ function setup() {
   
   createCanvas(windowWidth, windowHeight, WEBGL);
   textFont(font);
-  textSize(width / 5);
+  textSize(width / textSizeScaler);
   textAlign(CENTER, CENTER);
   
 }
 function draw() {
-  background(0);
+  background(theme*255);
   let time = millis();
   let remainingSeconds = Math.round((endMillis - time)/1000);
   if(remainingSeconds <0){
@@ -45,8 +50,9 @@ function draw() {
   var date = new Date(0);
   date.setSeconds(remainingSeconds); // specify value for SECONDS here
   timeString = date.toISOString().substr(11, 8);
-    
-  text(timeString, 0, 0);
+   
+  fill((!theme)*255);
+  text(timeString, 0, -1*windowHeight*0.05);
  
 }
 
@@ -57,7 +63,7 @@ function mousePressed() {
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
-  textSize(width / 5);
+  textSize(width / textSizeScaler);
 }
 
 function keyPressed() {
@@ -69,5 +75,9 @@ function keyPressed() {
     startSeconds = parseInt(splitInput[2]);
     
     init();
+  }
+  
+  if (keyCode === 70) { //Letter f
+    theme ^= 1;
   }
 }
