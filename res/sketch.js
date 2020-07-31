@@ -1,23 +1,37 @@
-let inconsolata;
+let font;
 function preload() {
-  inconsolata = loadFont('https://raw.githubusercontent.com/googlefonts/Inconsolata/master/fonts/otf/Inconsolata-Black.otf');
-  
-
-let startMillis;
-let endMillis;
+  font = loadFont('res/Flavors-Regular.ttf');  
 }
-function setup() {
-  let startHours = 1;
-  let startMinutes = 15;
-  let startSeconds = 35;
-  let seconds = startSeconds + (startMinutes*60) + (startHours*60*60);
+
+var startMillis;
+var endMillis;
+
+var timeString;
+var startHours;
+var startMinutes;
+var startSeconds;
+
+var seconds;
+
+function init() {
+  seconds = startSeconds + (startMinutes*60) + (startHours*60*60);
   
-  createCanvas(windowWidth, windowHeight, WEBGL);
-  textFont(inconsolata);
-  textSize(width / 5);
-  textAlign(CENTER, CENTER);
   startMillis = millis();
   endMillis = startMillis + seconds * 1000;
+  loop();
+}
+
+function setup() {
+  startHours = 1;
+  startMinutes = 15;
+  startSeconds = 35;
+  init();
+  
+  createCanvas(windowWidth, windowHeight, WEBGL);
+  textFont(font);
+  textSize(width / 5);
+  textAlign(CENTER, CENTER);
+  
 }
 function draw() {
   background(0);
@@ -30,7 +44,7 @@ function draw() {
     
   var date = new Date(0);
   date.setSeconds(remainingSeconds); // specify value for SECONDS here
-  var timeString = date.toISOString().substr(11, 8);
+  timeString = date.toISOString().substr(11, 8);
     
   text(timeString, 0, 0);
  
@@ -44,4 +58,16 @@ function mousePressed() {
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
   textSize(width / 5);
+}
+
+function keyPressed() {
+  if (keyCode === 84) { //Letter t
+    var inputTimeText = prompt("Enter timer in HH:MM:SS format", timeString);
+    var splitInput = inputTimeText.split(":");
+    startHours = parseInt(splitInput[0]);
+    startMinutes = parseInt(splitInput[1]);
+    startSeconds = parseInt(splitInput[2]);
+    
+    init();
+  }
 }
