@@ -1,6 +1,6 @@
 let font;
 function preload() {
-  font = loadFont('res/Flavors-Regular.ttf');  
+  font = loadFont('Flavors-Regular.ttf');  
 }
 
 var startMillis;
