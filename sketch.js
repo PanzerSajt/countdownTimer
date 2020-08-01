@@ -19,12 +19,20 @@ var theme;
 
 var settingsVisible;
 
+var theme = [];
+var nextSwap;
+
 function init() {
+  theme = [];
+  theme.push(colors.Background);
+  theme.push(colors.Text);
   textSize(colors.Size*100);
   startHours = parseInt(colors.Hours);
   startMinutes = parseInt(colors.Minutes);
   startSeconds = parseInt(colors.Seconds);
   seconds = startSeconds + (startMinutes*60) + (startHours*60*60);
+  
+  nextSwap = millis() + ( ((-1*colors.Speed)+2) * 1000);
   
   startMillis = millis();
   endMillis = startMillis + seconds * 1000;
@@ -36,8 +44,15 @@ function setup() {
   colors = new Color();
   let gui = new dat.GUI();
   var gui_col = gui.addFolder('Colors');
-  gui_col.addColor(colors, 'Background');
-  gui_col.addColor(colors, 'Text');
+  var backgroundController = gui_col.addColor(colors, 'Background');
+  backgroundController.onChange(function(value) {
+    init();
+  });
+  var textController = gui_col.addColor(colors, 'Text');
+  textController.onChange(function(value) {
+    init();
+  });
+  
   gui_col.open();
   
   var guiTimer = gui.addFolder('Timer');
@@ -56,14 +71,18 @@ function setup() {
   guiTimer.open();
   
   var guiText = gui.addFolder('Text');
-  var sizeController = guiText.add(colors, 'Size', 0, 10);
+  var sizeController = guiText.add(colors, 'Size', 0.1, 10);
   sizeController.onChange(function(value) {
     init();
   });
-  /*var flashingController = guiText.add(colors, 'Flashing');
+  var flashingController = guiText.add(colors, 'Flashing');
   flashingController.onChange(function(value) {
     init();
-  });*/
+  });
+  var flashingSpeedController = guiText.add(colors, 'Speed', 0, 2, 0.1);
+  flashingSpeedController.onChange(function(value) {
+    init();
+  });
   guiText.open();
   
 
@@ -94,11 +113,19 @@ function draw() {
   timeString = date.toISOString().substr(11, 8);
    
   if(colors.Flashing){
+    if(time >= nextSwap){
+      theme.reverse();
+      nextSwap = time + ( ((-1*colors.Speed)+2) * 1000);
+    }
     
   }else{
-    background(colors.Background[0], colors.Background[1], colors.Background[2]);
-    fill(colors.Text[0], colors.Text[1], colors.Text[2]);
+    //background(colors.Background[0], colors.Background[1], colors.Background[2]);
+    //fill(colors.Text[0], colors.Text[1], colors.Text[2]);
+    
   }
+  background(theme[0][0], theme[0][1], theme[0][2]);
+  fill(theme[1][0], theme[1][1], theme[1][2]);
+  
   text(timeString, 0, -1*windowHeight*0.05);
  
 }
@@ -144,7 +171,8 @@ function Color() {
   this.Minutes = 15;
   this.Seconds = 30;
   this.Size = 5;
-  //this.Flashing = false;
+  this.Flashing = false;
+  this.Speed = 1;
 
 	
 }
