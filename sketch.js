@@ -1,6 +1,6 @@
 let font;
 function preload() {
-  font = loadFont('Flavors-Regular.ttf');  
+  font = loadFont('RockSalt-Regular.ttf');  
 }
 
 let colors;
