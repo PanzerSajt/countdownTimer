@@ -126,7 +126,7 @@ function draw() {
   background(theme[0][0], theme[0][1], theme[0][2]);
   fill(theme[1][0], theme[1][1], theme[1][2]);
   
-  text(timeString, 0, -1*windowHeight*0.05);
+  text(timeString, 0, -1*windowHeight*0.15);
  
 }
 
@@ -170,7 +170,7 @@ function Color() {
   this.Hours = 1;
   this.Minutes = 15;
   this.Seconds = 30;
-  this.Size = 5;
+  this.Size = 3;
   this.Flashing = false;
   this.Speed = 1;
 
